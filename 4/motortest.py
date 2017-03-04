@@ -3,6 +3,13 @@ from Adafruit_MotorHAT import Adafruit_MotorHAT, Adafruit_DCMotor, Adafruit_Step
  
 import time
 import atexit
+import sys
+
+if len(sys.argv) < 2:
+	print("usage: motortest 1|2")
+	sys.exit(2)
+
+socket = int(sys.argv[1])
 
 mh = Adafruit_MotorHAT(addr = 0x60)
 
@@ -14,7 +21,7 @@ def turnOffMotors():
  
 atexit.register(turnOffMotors)
 
-motor = mh.getStepper(513, 1)
+motor = mh.getStepper(513, socket)
 motor.setSpeed(30)
 
 stepping = Adafruit_MotorHAT.SINGLE
