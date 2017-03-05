@@ -26,10 +26,11 @@ def process_command(cmd):
 	else:
 		raise RuntimeError('unknown type')
 
-async def server_loop(websocket, path):
+@asyncio.coroutine
+def server_loop(websocket, path):
 	while True:
 		print('receiving...')
-		encoded = await websocket.recv()
+		encoded = yield from websocket.recv()
 		decoded = json.loads(encoded)
 		print('>>>: {}'.format(encoded))	
 		reply = {'result' : 'OK' }
@@ -39,7 +40,7 @@ async def server_loop(websocket, path):
 			reply = {'result' : 'error', 'msg' : str(e)}
 			
 		encoded_reply = json.dumps(reply)
-		await websocket.send(encoded_reply)
+		yield from websocket.send(encoded_reply)
 
 start_server = websockets.serve(server_loop, 'localhost', 1980)
 
