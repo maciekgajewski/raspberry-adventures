@@ -50,8 +50,8 @@ class RobotMotors:
 	def steps(self, steps, pause, leftDir, rightDir):
 
 		for i in range(steps):
-			self.left.oneStep(leftDir, Adafruit_MotorHAT.SINGLE)
-			self.right.oneStep(rightDir, Adafruit_MotorHAT.SINGLE)
+			self.left.oneStep(leftDir, Adafruit_MotorHAT.DOUBLE)
+			self.right.oneStep(rightDir, Adafruit_MotorHAT.DOUBLE)
 			time.sleep(pause)
 
 
