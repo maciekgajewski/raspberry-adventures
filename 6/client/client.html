@@ -38,9 +38,15 @@
 				$('#controlPanel').hide();
 				console.log('Error detected: ' + event);
 			};
-			socket.onclose = function() { socket = null; }
+			socket.onclose = function() {
+				socket = null;
+				console.log('socket closed')
+				$('#controlPanel').hide();
+				 
+			}
 			socket.onopen = function(event) {
 				$('#controlPanel').show();
+				console.log('socket open')
 			};
 			socket.onmessage = function(e) {
 				console.log('Message from robot: ' + e.data)
@@ -48,7 +54,7 @@
 		})
 
 		// Commands
-		$('#forwardButton').on('click', function() {
+		$('#controlPanel :button').on('click', function() {
 			if (socket) {
 				console.log('sending: Forward')
 				var msg = { 'type' : 'command', 'command' : 'forward' };
@@ -61,7 +67,8 @@
 
 	<div id="connectionPanel" class="panel panel-default">
 		<div class="panel-body">
-			<input type="text" id="addressInput" class="form-control" placeholder="Robot address"/>
+			<input type="text" id="addressInput" class="form-control"
+				placeholder="Robot address" value="ws://localhost:1980/"/>
 			<button type="button" id="connectButton" class="btn btn-primary"/>Connect</button>
 		</div>
 	</div>
