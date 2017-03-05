@@ -56,8 +56,9 @@
 		// Commands
 		$('#controlPanel :button').on('click', function() {
 			if (socket) {
-				console.log('sending: Forward')
-				var msg = { 'type' : 'command', 'command' : 'forward' };
+				var cmd = event.target.getAttribute('robot-command')
+				console.log('sending: ' + cmd)
+				var msg = { 'type' : 'command', 'command' : cmd };
 				socket.send(JSON.stringify(msg));
 			}
 		});
@@ -77,10 +78,10 @@
 
 	<div id="controlPanel" class="panel panel-default collapse">
 		<div class="panel-body">
-			<button type="button" class="btn btn-default" id="forwardButton">Forward</button>
-			<button type="button" class="btn btn-default" id="backButton">Back</button>
-			<button type="button" class="btn btn-default" id="leftButton">Left</button>
-			<button type="button" class="btn btn-default" id="rightButton">Right</button>
+			<button type="button" class="btn btn-default" id="forwardButton" robot-command="forward">Forward</button>
+			<button type="button" class="btn btn-default" id="backButton" robot-command="backward">Back</button>
+			<button type="button" class="btn btn-default" id="leftButton" robot-command="left">Left</button>
+			<button type="button" class="btn btn-default" id="rightButton" robot-command="right">Right</button>
 		</div>
 	<div>
   </body>
