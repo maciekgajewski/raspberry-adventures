@@ -20,7 +20,7 @@ async def hello(websocket, path):
     await websocket.send(greeting)
     print("> {}".format(greeting))
 
-start_server = websockets.serve(hello, 'localhost', 8765)
+start_server = websockets.serve(hello, 'localhost', 1980)
 
 asyncio.get_event_loop().run_until_complete(start_server)
 asyncio.get_event_loop().run_forever()

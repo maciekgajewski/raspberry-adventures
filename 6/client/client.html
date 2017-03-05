@@ -25,21 +25,48 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript">
+	var socket = null;
 	$(document).ready(function() {
+		// Connection setup
 		$('#connectButton').on('click', function() {
-			$('#myAlert').show();
-			$('#controlPanel').show();
+			$('#connectionErrorAlert').hide()
+
+			var addr = $('#addressInput').val();
+			socket = new WebSocket(addr);
+			socket.onerror = function(event) {
+				$('#connectionErrorAlert').show();
+				$('#controlPanel').hide();
+				console.log('Error detected: ' + event);
+			};
+			socket.onclose = function() { socket = null; }
+			socket.onopen = function(event) {
+				$('#controlPanel').show();
+			};
+			socket.onmessage = function(e) {
+				console.log('Message from robot: ' + e.data)
+			};
 		})
+
+		// Commands
+		$('#forwardButton').on('click', function() {
+			if (socket) {
+				console.log('sending: Forward')
+				var msg = { 'type' : 'command', 'command' : 'forward' };
+				socket.send(JSON.stringify(msg));
+			}
+		});
+
 	}); // ready
 	</script>
 
 	<div id="connectionPanel" class="panel panel-default">
 		<div class="panel-body">
+			<input type="text" id="addressInput" class="form-control" placeholder="Robot address"/>
 			<button type="button" id="connectButton" class="btn btn-primary"/>Connect</button>
 		</div>
 	</div>
 
-	<div class="alert alert-warning collapse" id="ConnectionErrorAlert">Connection failed</div>
+	<div class="alert alert-warning collapse" id="connectionErrorAlert">Connection failed</div>
 
 	<div id="controlPanel" class="panel panel-default collapse">
 		<div class="panel-body">
