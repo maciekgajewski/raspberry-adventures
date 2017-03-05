@@ -12,7 +12,7 @@ print("backward:")
 m.move(-50)
 
 print("rotate left:")
-m.rotate(50);
+m.rotate(150);
 
 print("rotate right:")
-m.rotate(-50);
+m.rotate(-150);
